@@ -1,11 +1,9 @@
 #!/bin/bash
-# backupFSMedia.sh
-# Script per fer backup de continguts via rsync i generar snapshots amb zfs posteriorment
-# TODO
+#
 
 RSYNC_CMD="/usr/bin/rsync"
 RSYNC_OPTS="-a --force --delete-excluded --delete --inplace --stats"
-NSCA="/opt/csw/nagios/bin/send_nsca"
+NSCA="/opt/backupFSMedia/send_nsca.pl"
 MAIL="/usr/bin/mailx"
 
 version="v0.1"
@@ -66,9 +64,9 @@ notificaNagios() {
    local STATUS=$1
    if [ "$STATUS" = "OK" ]
    then
-      echo "$NAGIOS_HOST\t$NAGIOS_SERVICE\t0\t$STATUS Backup $NAME ($SRC -> $DST) correcte $BEGIN-$END\n" | $NSCA -H $NAGIOS_SERVER -c ${NSCA_CFG}
+      echo "$NAGIOS_HOST\t$NAGIOS_SERVICE\t0\t$STATUS Backup $NAME ($SRC -> $DST) correcte $BEGIN-$END\n" | $NSCA -H $NAGIOS_SERVER
    else
-      echo "$NAGIOS_HOST\t$NAGIOS_SERVICE\t2\t$STATUS Backup $NAME ($SRC -> $DST) erroni $BEGIN-$END\n" | $NSCA -H $NAGIOS_SERVER -c ${NSCA_CFG}
+      echo "$NAGIOS_HOST\t$NAGIOS_SERVICE\t2\t$STATUS Backup $NAME ($SRC -> $DST) erroni $BEGIN-$END\n" | $NSCA -H $NAGIOS_SERVER
    fi
 }
 
