@@ -6,7 +6,7 @@ RSYNC_OPTS="-a --force --delete-excluded --delete --inplace --stats"
 NSCA="/opt/backupFSMedia/send_nsca.pl"
 MAIL="/usr/bin/mailx"
 
-version="v0.1"
+version="v0.2"
 __DIR__="$(cd "$(dirname "${0}")"; echo $(pwd))"
 __FILE__="${__DIR__}/$(basename "${0}")"
 
@@ -64,9 +64,9 @@ notificaNagios() {
    local STATUS=$1
    if [ "$STATUS" = "OK" ]
    then
-      echo "$NAGIOS_HOST\t$NAGIOS_SERVICE\t0\t$STATUS Backup $NAME ($SRC -> $DST) correcte $BEGIN-$END\n" | $NSCA -H $NAGIOS_SERVER
+      echo "$NAGIOS_HOST\t$NAGIOS_SERVICE\t0\t$STATUS Backup $NAME ($SRC -> $DST) correcte $BEGIN-$END\n" | $NSCA -H $NAGIOS_SERVER > /dev/null 2> /dev/null
    else
-      echo "$NAGIOS_HOST\t$NAGIOS_SERVICE\t2\t$STATUS Backup $NAME ($SRC -> $DST) erroni $BEGIN-$END\n" | $NSCA -H $NAGIOS_SERVER
+      echo "$NAGIOS_HOST\t$NAGIOS_SERVICE\t2\t$STATUS Backup $NAME ($SRC -> $DST) erroni $BEGIN-$END\n" | $NSCA -H $NAGIOS_SERVER > /dev/null 2> /dev/null
    fi
 }
 
